@@ -148,27 +148,45 @@ foods = [
     }
 ]
 
-
 db = SessionLocal()
 
 try:
+    inserted = 0
+    skipped = 0
 
     for food_data in foods:
+
+        existing_food = (
+            db.query(Food)
+            .filter(
+                Food.name == food_data["name"],
+                Food.meal_type == food_data["meal_type"],
+                Food.diet_type == food_data["diet_type"],
+            )
+            .first()
+        )
+
+        if existing_food:
+            skipped += 1
+            continue
 
         food = Food(**food_data)
 
         db.add(food)
+        inserted += 1
 
     db.commit()
 
-    print("Food data inserted successfully!")
+    print(
+        f"Food seeding complete: "
+        f"{inserted} inserted, "
+        f"{skipped} already existed."
+    )
 
 except Exception as e:
-
     db.rollback()
-
-    print("Error:", e)
+    print("Food seeding failed:", e)
+    raise
 
 finally:
-
     db.close()
