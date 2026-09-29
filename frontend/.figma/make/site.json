@@ -1,0 +1,10 @@
+{
+  "description": "Effortlessly manage and share files with a user-friendly interface, designed for individuals and teams seeking efficient collaboration and organization.",
+  "robots": {
+    "index": false
+  },
+  "accessibility": {
+    "addBypassLinks": false,
+    "ignoreReducedMotion": false
+  }
+}
